@@ -1,2 +1,2 @@
 # JM_Blog
-[Link Project] (https://blog-dusky-tau.vercel.app/)
+<https://blog-dusky-tau.vercel.app/>
