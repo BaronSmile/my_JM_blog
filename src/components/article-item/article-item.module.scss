@@ -1,0 +1,169 @@
+.article {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 15px 20px 25px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dark {
+  background-color: #15395b;
+  color: aliceblue;
+}
+
+.article__header {
+  display: flex;
+}
+
+.article__left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.article__titleWrapper {
+  display: flex;
+}
+
+.article__right {
+  position: relative;
+  margin-left: auto;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: flex-end;
+}
+
+.article__userInfoWrapper {
+  display: flex;
+}
+
+.article__username {
+  font-size: 20px;
+  color: #000000;
+}
+
+.article__tags {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+}
+
+.article__tagsItem {
+  max-width: 200px;
+  overflow-wrap: break-word;
+  padding: 1px 10px;
+  margin-right: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+}
+
+.dark__tags{
+  color: #1d39c4;
+  background: #111d2c;
+  border-color: #adc6ff;
+}
+
+.article__title {
+  display: flex;
+  align-items: center;
+  margin: 0 20px 0 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 28px;
+}
+
+.article__link {
+  text-decoration: none;
+  color: #1890ff;
+}
+
+.article__link:hover {
+  opacity: 0.7;
+}
+
+.article__link:active,
+.article__link:focus {
+  color: #52c41a;
+}
+
+.article__like {
+  font-size: 14px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.75);
+  align-self: center;
+}
+
+.article__heart {
+  margin-right: 5px;
+  align-self: center;
+  color: rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  font-size: 18px;
+  color: #ff0707;
+
+
+  &:hover {
+    color: #ff0707;
+  }
+}
+
+.article__loadingLike {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.article__avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.article__buttons {
+  margin-top: 20px;
+}
+
+button.article__Delete {
+  margin-right: 20px;
+  background-color: #ffffff;
+  color: #f5222d;
+  border-color: #f5222d;
+}
+
+button.article__edit {
+  background-color: #ffffff;
+  color: #52c41a;
+  border-color: #52c41a;
+}
+
+button.article__edit:hover,
+button.article__edit:focus,
+button.article__edit:active {
+  background-color: #52c41a;
+}
+
+
+.article__userInfo {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-right: 20px;
+  text-align: right;
+}
+
+.article__content,
+.article__description {
+
+  margin: 10px 0 0 0;
+  padding: 0;
+}

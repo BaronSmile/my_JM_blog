@@ -1,0 +1,121 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 15px;
+  font-size: 16px;
+  line-height: 28px;
+  background-color: #ffffff;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  box-shadow: 0 3px 20px rgba(0,0,0, .1);
+}
+
+.dark{
+  background-color: #112a45;
+}
+
+.header__title {
+  margin: 0;
+  padding: 0;
+}
+
+.header__titleLink {
+  font-size: 18px;
+  line-height: 28px;
+  color: #000000;
+}
+
+.header__loggedOut,
+.header__loggedIn {
+  display: flex;
+  align-items: baseline;
+}
+
+.header__userInfo {
+  display: flex;
+  align-items: flex-end;
+  margin-right: 25px;
+}
+
+.header__username {
+  color: #000000;
+  margin-right: 10px;
+}
+.switch{
+  background: #365071;
+}
+.ant-switch-checked{
+ background-color: #f5222d;
+}
+
+.header__createArticle {
+  margin-right: 20px;
+  padding: 3px 5px;
+  font-size: 16px;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+.header__createArticle:active,
+.header__createArticle:hover {
+  color: #52c41a;
+  border: 1px solid #52c41a;
+}
+
+.header__avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.header__logOut {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 5px 10px;
+  background-color: transparent;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+}
+
+.header__username:active,
+.header__username:hover {
+  color: #52c41a;
+}
+
+.header__logOut:active,
+.header__logOut:hover {
+  color: #52c41a;
+  border: 1px solid #52c41a;
+}
+
+.header__signIn {
+  margin-right: 20px;
+  color: #000000;
+}
+
+.dark__signIn{
+  color: whitesmoke;
+}
+
+.header__signUp {
+  color: #52c41a;
+  border: 1px solid #52c41a;
+  border-radius: 5px;
+  padding: 5px 18px;
+}
+
+.header__signIn:active,
+.header__signUp:active {
+
+}
+
+.header__signIn:hover,
+.header__signUp:hover {
+  color: #52c41a;
+}

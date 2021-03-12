@@ -1,0 +1,25 @@
+.articlesList {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+ul.pagination,
+ul.dark {
+  display: flex;
+  justify-content: center;
+}
+
+ul.dark li a{
+  background-color: #111d2c;
+  color: #fff;
+}
+
+
+div.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  height: 100vh;
+}
