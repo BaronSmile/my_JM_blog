@@ -1,0 +1,50 @@
+.signIn{
+  height: 100vh;
+}
+
+.signIn__form {
+  width: 384px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 50px 30px;
+  font-family: 'Roboto-Regular', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 22px 106px rgba(0, 0, 0, 0.07), 0 9.19107px 44.2843px rgba(0, 0, 0, 0.0503198),
+  0 4.91399px 23.6765px rgba(0, 0, 0, 0.0417275), 0 2.75474px 13.2728px rgba(0, 0, 0, 0.035),
+  0 1.46302px 7.04911px rgba(0, 0, 0, 0.0282725), 0 0.608796px 2.93329px rgba(0, 0, 0, 0.0196802);
+}
+
+.signIn__title {
+  font-family: 'Roboto-Medium', 'Segoe UI', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  font-style: normal;
+  text-align: center;
+}
+
+input.signIn__input {
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+button.signIn__submit {
+  width: 100%;
+  height: 45px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.signIn__question {
+  margin: 0;
+  padding: 0;
+  color: #8c8c8c;
+  text-align: center;
+}
