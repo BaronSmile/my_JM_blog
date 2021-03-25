@@ -1,1 +1,1 @@
-export {default} from './tag-form';
+export { default } from './tag-form';

@@ -1,14 +1,14 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import cn from 'classnames';
 
-import css from '../header/header.module.scss'
+import css from '../header/header.module.scss';
 
 function LoggedOutUser() {
-  const themeMode = useSelector(state=> state.themeMode)
+  const themeMode = useSelector((state) => state.themeMode);
 
-  const signInStyle = cn(css.header__signIn,{[css.dark__signIn]:themeMode});
+  const signInStyle = cn(css.header__signIn, { [css.dark__signIn]: themeMode });
 
   return (
     <div className={css.header__loggedOut}>

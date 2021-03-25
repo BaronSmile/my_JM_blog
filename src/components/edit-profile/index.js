@@ -1,1 +1,1 @@
-export {default} from './edit-profile';
+export { default } from './edit-profile';

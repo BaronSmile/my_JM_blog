@@ -5,5 +5,5 @@ export const setLoggedIn = (payload) => ({ type: SET_LOGGED_IN, payload });
 
 export const toggleDarkMode = () => ({
   type: 'TOGGLE_THEME_MODE',
-  payload:{}
-})
+  payload: {},
+});

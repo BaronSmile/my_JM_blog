@@ -1,1 +1,1 @@
-export {default} from './edit-article';
+export { default } from './edit-article';

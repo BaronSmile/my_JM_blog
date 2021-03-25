@@ -1,1 +1,1 @@
-export {default as LoggedOutUser} from './loggedOutUser';
+export { default as LoggedOutUser } from './loggedOutUser';

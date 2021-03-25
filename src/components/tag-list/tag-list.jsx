@@ -1,21 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useSelector} from "react-redux";
+import { useSelector } from 'react-redux';
 import cn from 'classnames';
 
 import css from './tag-list.module.scss';
 
-function TagList({tags, onDeleteTag}) {
-  const themeMode = useSelector(state=>state.themeMode);
+function TagList({ tags, onDeleteTag }) {
+  const themeMode = useSelector((state) => state.themeMode);
 
-  const elements = tags.map(({id, name}) => (
-    <li
-      key={id}
-      className={css.tags__item}
-    >
+  const elements = tags.map(({ id, name }) => (
+    <li key={id} className={css.tags__item}>
       <span className={css.tags__tag}>{name}</span>
       <button
-        type='button'
+        type="button"
         className={css.tags__delete}
         onClick={() => {
           onDeleteTag(id);
@@ -26,7 +23,7 @@ function TagList({tags, onDeleteTag}) {
     </li>
   ));
 
-  const tagsStyle = cn({[css.dark__tags]: themeMode});
+  const tagsStyle = cn({ [css.dark__tags]: themeMode });
 
   return (
     <div className={tagsStyle}>
@@ -40,5 +37,5 @@ export default TagList;
 
 TagList.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.object),
-  onDeleteTag: PropTypes.func
+  onDeleteTag: PropTypes.func,
 };

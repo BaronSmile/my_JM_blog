@@ -1,4 +1,4 @@
-import GetResponseServer from "./getResponseServer";
+import GetResponseServer from './getResponseServer';
 
 export default class UserServer extends GetResponseServer {
   baseUrl = `https://conduit.productionready.io/api/`;
@@ -6,7 +6,7 @@ export default class UserServer extends GetResponseServer {
   async registerUser(data) {
     const options = this.getOptions('', 'POST', data);
 
-    return await this.getResponse(`${this.baseUrl}users`, options)
+    return await this.getResponse(`${this.baseUrl}users`, options);
   }
 
   async logInUser(data) {

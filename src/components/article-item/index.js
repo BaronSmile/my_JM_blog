@@ -1,1 +1,1 @@
-export {default as ArticleItem} from './article-item';
+export { default as ArticleItem } from './article-item';

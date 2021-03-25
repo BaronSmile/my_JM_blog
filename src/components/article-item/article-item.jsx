@@ -1,50 +1,44 @@
 import React from 'react';
-import {HeartFilled, HeartOutlined} from "@ant-design/icons";
-import {format, parseISO} from 'date-fns';
-import {Button, Popconfirm} from 'antd';
+import { HeartFilled, HeartOutlined } from '@ant-design/icons';
+import { format, parseISO } from 'date-fns';
+import { Button, Popconfirm } from 'antd';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
-import {Link, useHistory} from "react-router-dom";
+import { Link, useHistory } from 'react-router-dom';
 import cn from 'classnames';
-import {useSelector} from "react-redux";
+import { useSelector } from 'react-redux';
 
-import UseArticle from "./useArticle";
+import UseArticle from './useArticle';
 import css from './article-item.module.scss';
-import {ErrorIndicator} from "../error-indicator";
+import { ErrorIndicator } from '../error-indicator';
 
-
-function ArticleItem({article, isFull = false, onDelete}) {
+function ArticleItem({ article, isFull = false, onDelete }) {
   const history = useHistory();
-  const themeMode = useSelector(state => state.themeMode)
+  const themeMode = useSelector((state) => state.themeMode);
 
-  const {onFavoriteArticle, onBtnEditClick, articleItem, username, errors} = UseArticle(article)
-  const {title, slug, favorited, body, createdAt, tagList, description, author, favoritesCount} = articleItem;
-
+  const { onFavoriteArticle, onBtnEditClick, articleItem, username, errors } = UseArticle(article);
+  const { title, slug, favorited, body, createdAt, tagList, description, author, favoritesCount } = articleItem;
 
   if (errors) {
-    return <ErrorIndicator/>;
+    return <ErrorIndicator />;
   }
 
   const isOwnArticle = username === author.username && isFull;
   const date = format(new Date(parseISO(createdAt)), 'MMMM d, yyyy');
   const likeContent = favorited ? (
-    <HeartFilled
-      onClick={onFavoriteArticle}
-      className={css.article__heart}
-    />
+    <HeartFilled onClick={onFavoriteArticle} className={css.article__heart} />
   ) : (
-    <HeartOutlined onClick={onFavoriteArticle} className={css.article__heart_outlined}/>
-  )
+    <HeartOutlined onClick={onFavoriteArticle} className={css.article__heart_outlined} />
+  );
 
   let str = 'articles';
-  let res = history.location.pathname.split('/').includes(str)
+  let res = history.location.pathname.split('/').includes(str);
 
-  const articleStyle = cn({[css.article]: res}, {[css.article__dark]: themeMode});
-  const deleteBtnStyle = cn(css.article__delete, {[css.dark__delete]: themeMode});
-  const editBtnStyle = cn(css.article__edit, {[css.dark__edit]: themeMode});
-  const tagsStyle = cn(css.article__tagsItem, {[css.dark__tags]: themeMode});
-  const userNameStyle = cn(css.article__username, {[css.dark__username]: themeMode})
-
+  const articleStyle = cn({ [css.article]: res }, { [css.article__dark]: themeMode });
+  const deleteBtnStyle = cn(css.article__delete, { [css.dark__delete]: themeMode });
+  const editBtnStyle = cn(css.article__edit, { [css.dark__edit]: themeMode });
+  const tagsStyle = cn(css.article__tagsItem, { [css.dark__tags]: themeMode });
+  const userNameStyle = cn(css.article__username, { [css.dark__username]: themeMode });
 
   return (
     <article className={articleStyle}>
@@ -75,7 +69,7 @@ function ArticleItem({article, isFull = false, onDelete}) {
                 <span className={userNameStyle}>{author.username}</span>
                 <span>{date}</span>
               </div>
-              <img className={css.article__avatar} src={author.image} width="46" height="46" alt="Avatar"/>
+              <img className={css.article__avatar} src={author.image} width="46" height="46" alt="Avatar" />
             </div>
             {isOwnArticle ? (
               <div className={css.article__buttons}>
@@ -97,8 +91,9 @@ function ArticleItem({article, isFull = false, onDelete}) {
             ) : null}
           </div>
         </header>
-        <section className={cn({[css.dark__body]: themeMode})}>{isFull ?
-          <ReactMarkdown source={body}/> : null}</section>
+        <section className={cn({ [css.dark__body]: themeMode })}>
+          {isFull ? <ReactMarkdown source={body} /> : null}
+        </section>
       </div>
     </article>
   );
@@ -107,8 +102,7 @@ function ArticleItem({article, isFull = false, onDelete}) {
 ArticleItem.defaultProps = {
   article: {},
   isFull: false,
-  onDelete: () => {
-  },
+  onDelete: () => {},
 };
 
 ArticleItem.propTypes = {
@@ -116,6 +110,5 @@ ArticleItem.propTypes = {
   isFull: PropTypes.bool,
   onDelete: PropTypes.func,
 };
-
 
 export default ArticleItem;

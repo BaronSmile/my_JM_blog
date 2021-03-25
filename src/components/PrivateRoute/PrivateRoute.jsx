@@ -1,13 +1,13 @@
 import React from 'react';
-import {Redirect, Route} from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import {getFromLocalStorage} from "../../utils/localStorage";
+import { getFromLocalStorage } from '../../utils/localStorage';
 
-const PrivateRoute = ({component: Component, ...rest}) => (
+const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={(props) => (getFromLocalStorage('token') ? <Component {...props} /> : <Redirect to="/sign-in"/>)}
+    render={(props) => (getFromLocalStorage('token') ? <Component {...props} /> : <Redirect to="/sign-in" />)}
   />
 );
 

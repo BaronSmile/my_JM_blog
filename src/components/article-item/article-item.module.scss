@@ -21,7 +21,6 @@
   }
 }
 
-
 .article__section {
   display: flex;
   flex-direction: column;
@@ -32,8 +31,6 @@
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-
-
 }
 
 .dark {
@@ -44,12 +41,16 @@
 .dark__body {
   color: burlywood;
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 700;
     color: burlywood;
   }
 }
-
 
 .article__header {
   display: flex;
@@ -91,7 +92,6 @@
     font-weight: 700;
   }
 }
-
 
 .article__tags {
   width: 100%;
@@ -197,7 +197,6 @@
   }
 }
 
-
 button.article__delete {
   margin-right: 20px;
   background-color: #ffffff;
@@ -217,7 +216,6 @@ button.article__edit:active {
   background-color: #52c41a;
 }
 
-
 .article__userInfo {
   display: flex;
   flex-wrap: wrap;
@@ -228,11 +226,10 @@ button.article__edit:active {
 
 .article__content,
 .article__description {
-
   margin: 10px 0 0 0;
   padding: 0;
 }
-.alert{
+.alert {
   position: absolute;
   top: 0;
   bottom: 0;

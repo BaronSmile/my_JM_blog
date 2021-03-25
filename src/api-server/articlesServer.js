@@ -1,4 +1,4 @@
-import GetResponseServer from "./getResponseServer";
+import GetResponseServer from './getResponseServer';
 
 export default class ArticlesServer extends GetResponseServer {
   baseUrl = `https://conduit.productionready.io/api/articles`;
@@ -18,7 +18,7 @@ export default class ArticlesServer extends GetResponseServer {
   async createArticle(data, token) {
     const options = this.getOptions(token, 'POST', data);
 
-    return await this.getResponse(`${this.baseUrl}`, options)
+    return await this.getResponse(`${this.baseUrl}`, options);
   }
 
   async updateArticle(data, slug, token) {
