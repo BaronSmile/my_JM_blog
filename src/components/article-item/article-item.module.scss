@@ -1,18 +1,55 @@
 .article {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin-top: 10em;
+}
+
+.article__dark {
+  color: whitesmoke;
+  background-color: #111d2c;
+
+  .article__section {
+    background-color: #112a45;
+  }
+
+  .article__like,
+  .article__heart_outlined {
+    color: #f89f9a;
+  }
+}
+
+
+.article__section {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin: 0 auto 25px;
+  width: 960px;
   padding: 15px 20px 25px;
   background-color: #ffffff;
   border-radius: 5px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+
 }
 
 .dark {
   background-color: #15395b;
   color: aliceblue;
 }
+
+.dark__body {
+  color: burlywood;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: burlywood;
+  }
+}
+
 
 .article__header {
   display: flex;
@@ -27,6 +64,7 @@
 
 .article__titleWrapper {
   display: flex;
+  margin-bottom: 10px;
 }
 
 .article__right {
@@ -42,12 +80,18 @@
 
 .article__userInfoWrapper {
   display: flex;
+
+  .article__username {
+    font-size: 20px;
+    color: #000;
+  }
+
+  .dark__username {
+    color: #fff;
+    font-weight: 700;
+  }
 }
 
-.article__username {
-  font-size: 20px;
-  color: #000000;
-}
 
 .article__tags {
   width: 100%;
@@ -66,16 +110,16 @@
   border-radius: 2px;
 }
 
-.dark__tags{
-  color: #1d39c4;
-  background: #111d2c;
+.dark__tags {
+  color: #b9a3a3;
+  background: #305c86;
   border-color: #adc6ff;
 }
 
 .article__title {
   display: flex;
   align-items: center;
-  margin: 0 20px 0 0;
+  margin: 0 1rem 0 0;
   padding: 0;
   font-size: 20px;
   font-weight: normal;
@@ -106,15 +150,21 @@
 .article__heart {
   margin-right: 5px;
   align-self: center;
-  color: rgba(0, 0, 0, 0.75);
+  color: #ff0707;
   cursor: pointer;
   font-size: 18px;
-  color: #ff0707;
 
-
-  &:hover {
+  &:hover,
+  &:active {
     color: #ff0707;
   }
+}
+
+.article__heart_outlined {
+  margin-right: 5px;
+  align-self: center;
+  cursor: pointer;
+  font-size: 18px;
 }
 
 .article__loadingLike {
@@ -131,9 +181,24 @@
 
 .article__buttons {
   margin-top: 20px;
+
+  button {
+    border-radius: 5px;
+  }
+
+  .dark__delete {
+    background-color: #f5222d;
+    color: #fff;
+  }
+
+  .dark__edit {
+    color: #fff;
+    background-color: #52c41a;
+  }
 }
 
-button.article__Delete {
+
+button.article__delete {
   margin-right: 20px;
   background-color: #ffffff;
   color: #f5222d;
@@ -166,4 +231,14 @@ button.article__edit:active {
 
   margin: 10px 0 0 0;
   padding: 0;
+}
+.alert{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 90%;
+  margin: 10rem auto;
+  background-color: #111d2c;
 }

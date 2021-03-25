@@ -13,10 +13,12 @@ import css from "./edit-profile.module.scss";
 import {FormInput} from "../form-input";
 
 function EditProfile() {
+  const [error, setError] = useState(null);
+  
   const dispatch = useDispatch();
   const history = useHistory();
+  
   const currentUser = useSelector(({userData: {user = {}}}) => user);
-  const [error, setError] = useState(null);
   const userService = new UserServer();
   const token = getFromLocalStorage('token');
 
@@ -28,7 +30,7 @@ function EditProfile() {
     setValue,
     nameSettingsValidation,
     emailSettingsValidation,
-    passwordSettingsValidation,
+    editPasswordSettings,
     urlSettingsValidation
   } = RegisterFormValidation();
 
@@ -39,7 +41,8 @@ function EditProfile() {
       setValue('email', `${currentUser.email}`);
       setValue('image', `${currentUser.image ?? DefaultAvatar}`)
     }
-  }, [currentUser, setValue]);
+    // eslint-disable-next-line
+  }, [currentUser]);
 
   const onSubmit = ({username, email, password, image}) => {
     const requestBody = {
@@ -87,7 +90,7 @@ function EditProfile() {
           label='password'
           id='password'
           error={errors.password}
-          ref={passwordSettingsValidation}
+          ref={editPasswordSettings}
           type='password'
           name='password'
           serverErrors={serverErrors}
@@ -104,7 +107,7 @@ function EditProfile() {
         <Button
           className={css.profile__submit}
           type='primary'
-          htmltype='submit'
+          htmlType='submit'
         >
           Save
         </Button>

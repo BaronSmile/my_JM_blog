@@ -1,0 +1,33 @@
+.newArticleForm__Textarea {
+  margin-bottom: 20px;
+}
+
+.newArticleForm__input {
+  padding: 10px 10px 110px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 22px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  outline: none;
+  background-color: transparent;
+  opacity: .8;
+}
+
+.newArticleForm__input:active,
+.newArticleForm__input:hover,
+.newArticleForm__input:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 1px #1890ff;
+}
+
+button.newArticleForm__Submit {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: 20px 150px;
+  bottom: 50px;
+  left: 30px;
+}

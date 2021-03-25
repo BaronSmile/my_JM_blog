@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Link, Redirect} from 'react-router-dom';
 import {Button} from 'antd';
+import cn from 'classnames';
 
 
 import {setLoggedIn, setUser} from "../../redux/actions";
@@ -16,6 +17,7 @@ function SignUp() {
   const userServer = new UserServer();
   const dispatch = useDispatch();
   const auth = useSelector(({loggedIn = false}) => loggedIn);
+  const themeMode = useSelector(({themeMode}) => themeMode)
   const [error, setErrors] = useState(null);
 
   const {
@@ -41,6 +43,7 @@ function SignUp() {
     };
 
     userServer.registerUser(requestBody).then((body) => {
+      console.log('Register:', body);
       if (body.errors) {
         setServerErrors(body.errors);
         return;
@@ -60,9 +63,11 @@ function SignUp() {
     return <ErrorIndicator/>
   }
 
+  const themeModeStyle = cn(css.signUp, {[css.signUp__dark]: themeMode});
+
 
   return (
-    <div className={css.signUp}>
+    <div className={themeModeStyle}>
       <form className={css.signUp__form} onSubmit={handleSubmit(onSubmit)}>
         <h1 className={css.signUp__title}>Create new account</h1>
 
@@ -126,7 +131,7 @@ function SignUp() {
         <Button
           className={css.signUp__submit}
           type='primary'
-          htmltype='submit'
+          htmlType='submit'
         >Create</Button>
         <p>Already have an account? <Link to='/sign-in'>Sign In</Link></p>
       </form>

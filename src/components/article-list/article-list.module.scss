@@ -1,6 +1,5 @@
 .articlesList {
   margin: 0 auto;
-  padding: 0;
   list-style: none;
 }
 
@@ -10,7 +9,7 @@ ul.dark {
   justify-content: center;
 }
 
-ul.dark li a{
+ul.dark li a {
   background-color: #111d2c;
   color: #fff;
 }
@@ -22,4 +21,15 @@ div.spinner {
   align-items: center;
   font-size: 35px;
   height: 100vh;
+}
+
+.alert {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 90%;
+  margin: 10rem auto;
+  background-color: #111d2c;
 }

@@ -12,7 +12,7 @@ export default class UserServer extends GetResponseServer {
   async logInUser(data) {
     const options = this.getOptions('', 'POST', data);
 
-    return await this.getResponse(`${this.baseUrl}user/login`, options);
+    return await this.getResponse(`${this.baseUrl}users/login`, options);
   }
 
   async getCurrentUser(token) {

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Link, Redirect} from 'react-router-dom';
 import {Button} from "antd";
+import cn from 'classnames';
 
 import UserServer from '../../api-server/userServer';
 import {setLoggedIn, setUser} from "../../redux/actions";
@@ -16,6 +17,16 @@ function SignIn() {
   const userService = new UserServer();
   const dispatch = useDispatch();
   const auth = useSelector(({loggedIn = false}) => loggedIn);
+  const themeMode = useSelector(({themeMode}) => themeMode)
+
+  const {
+    serverErrors,
+    setServerErrors,
+    handleSubmit,
+    errors,
+    emailSettingsValidation,
+    passwordSettingsValidation
+  } = RegisterFormValidation();
 
   const onSubmit = ({email, password}) => {
     const requestBody = {
@@ -38,15 +49,6 @@ function SignIn() {
   };
 
 
-  const {
-    serverErrors,
-    setServerErrors,
-    handleSubmit,
-    errors,
-    emailSettingsValidation,
-    passwordSettingsValidation
-  } = RegisterFormValidation();
-
   if (error) {
     return <ErrorIndicator/>
   }
@@ -55,10 +57,12 @@ function SignIn() {
     return <Redirect to='/'/>
   }
 
+  const signInStyle = cn(css.signIn,{[css.signIn__dark]:themeMode});
 
   return (
-    <div className={css.signIn}>
-      <form className={css.signIn__form} onSubmit={handleSubmit(onSubmit)}>
+    <div className={signInStyle}>
+      <form className={css.signIn__form}
+            onSubmit={handleSubmit(onSubmit)}>
         <h1 className={css.signIn__title}>Sign In</h1>
         <FormInput
           ref={emailSettingsValidation}
@@ -83,11 +87,7 @@ function SignIn() {
         {serverErrors['email or password'] && (
           <ErrorIndicator errorMessage={`Email or password ${serverErrors['email or password']}`}/>
         )}
-        <Button
-          className={css.signIn__submit}
-          type='primary'
-          thmltype='Submit'
-        >
+        <Button className={css.signIn__submit} type="primary" htmlType="submit">
           Login
         </Button>
         <p className={css.signIn__question}>

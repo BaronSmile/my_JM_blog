@@ -1,0 +1,51 @@
+.tags__title {
+  margin: 0;
+  font-size: 14px;
+}
+
+.tags__delete {
+  border: 1px solid #f5222d;
+  color: #f5222d;
+  font-size: 16px;
+  line-height: 24px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #ffffff;
+  padding: 8px 35px;
+  outline: none;
+}
+
+.tags__delete:hover,
+.tags__delete:active,
+.tags__delete:focus {
+  border: 1px solid darken(#f5222d, 15%);
+  color: darken(#f5222d, 15%);
+}
+
+.tags__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dark__tags{
+  .tags__delete{
+    background-color: #f5222d;
+    color:#fff;
+  }
+}
+
+.tags__item {
+  display: flex;
+  margin-top: 10px;
+}
+
+.tags__tag {
+  width: 300px;
+  padding: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  cursor: pointer;
+}

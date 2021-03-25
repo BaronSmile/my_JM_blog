@@ -57,10 +57,12 @@ function ArticleList() {
   }
 
   if (hasError) {
-    return <Alert message='Error' description="Couldn't find the article" type='error'/>
+    return (<div className={css.alert}>
+      <Alert message='Error' description="Couldn't find the article" type='error'/>
+    </div>)
   }
 
- const paginationClass = cn({[css.pagination]: !themeMode,[css.dark]:themeMode})
+ const paginationClass = cn(css.pagination,{[css.dark]:themeMode})
 
 
   return (

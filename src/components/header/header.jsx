@@ -47,6 +47,7 @@ const Header = () => {
         unCheckedChildren="dark"
         onClick={() => dispatch(toggleDarkMode())}
         defaultChecked/>
+
       {auth || getFromLocalStorage('token') ?
         <LoggedInUser/> : <LoggedOutUser/>}
     </header>

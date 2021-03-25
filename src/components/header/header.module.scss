@@ -2,17 +2,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 20px 15px;
+  margin-bottom: 3em;
+  padding: 20px;
   font-size: 16px;
   line-height: 28px;
   background-color: #ffffff;
-  position: fixed;
-  width: 100%;
+  position: relative;
   z-index: 2;
-  box-shadow: 0 3px 20px rgba(0,0,0, .1);
+  width: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
 }
 
-.dark{
+.dark {
   background-color: #112a45;
 }
 
@@ -30,39 +31,53 @@
 .header__loggedOut,
 .header__loggedIn {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+}
+
+.header__logOut {
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px 10px;
 }
 
 .header__userInfo {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 700;
   margin-right: 25px;
 }
 
 .header__userName {
   color: #000000;
   margin-right: 10px;
+
+  &:hover,&:active{
+    opacity: .8;
+  }
 }
-.switch{
+
+.switch {
   background: #365071;
 }
-.ant-switch-checked{
- background-color: #f5222d;
+
+.ant-switch-checked {
+  background-color: #f5222d;
 }
 
 .header__createArticle {
   margin-right: 20px;
   padding: 3px 5px;
-  font-size: 16px;
+  font-size: 14px;
   color: #000000;
   border: 1px solid #000000;
   border-radius: 5px;
-}
 
-.header__createArticle:active,
-.header__createArticle:hover {
-  color: #52c41a;
-  border: 1px solid #52c41a;
+  &:active, &:hover {
+    color: #52c41a;
+    border: 1px solid #52c41a;
+  }
 }
 
 .header__avatar {
@@ -81,6 +96,11 @@
   border-radius: 5px;
   cursor: pointer;
   outline: none;
+
+  &:active, &:hover {
+    border-color: #f5222d;
+    color: #f5222d;
+  }
 }
 
 .header__username:active,
@@ -88,18 +108,12 @@
   color: #52c41a;
 }
 
-.header__logOut:active,
-.header__logOut:hover {
-  color: #52c41a;
-  border: 1px solid #52c41a;
-}
-
 .header__signIn {
   margin-right: 20px;
   color: #000000;
 }
 
-.dark__signIn{
+.dark__signIn {
   color: whitesmoke;
 }
 
@@ -115,7 +129,40 @@
 
 }
 
-.header__signIn:hover,
-.header__signUp:hover {
+.header__signIn:hover {
   color: #52c41a;
+}
+
+.header__signUp:hover {
+  background-color: #52c41a;
+  color: #fff;
+}
+
+
+.dark__loggedIn {
+  span {
+    color: white;
+  }
+
+  .header__logOut {
+    background-color: #f5222d;
+    color: white;
+    opacity: .85;
+
+    &:hover {
+      opacity: 1;
+      color: white;
+    }
+  }
+
+  .header__createArticle{
+    background-color: #52c41a;
+    color: white;
+    opacity: .85;
+
+    &:hover {
+      opacity: 1;
+      color: white;
+    }
+  }
 }
