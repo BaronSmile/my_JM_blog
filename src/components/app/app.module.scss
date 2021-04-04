@@ -6,3 +6,9 @@
 .dark {
   background-color: #111d2c;
 }
+
+@media (max-width: 1000px) {
+  .main{
+    width: 100%;
+  }
+}

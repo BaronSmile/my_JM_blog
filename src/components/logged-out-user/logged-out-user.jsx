@@ -6,7 +6,7 @@ import cn from 'classnames';
 import css from '../header/header.module.scss';
 
 function LoggedOutUser() {
-  const themeMode = useSelector((state) => state.themeMode);
+  const themeMode = useSelector((state) => state.isDarkMode);
 
   const signInStyle = cn(css.header__signIn, { [css.dark__signIn]: themeMode });
 

@@ -6,7 +6,6 @@ import cn from 'classnames';
 
 import UserServer from '../../api-server/userServer';
 import {getFromLocalStorage} from '../../utils/localStorage';
-import DefaultAvatar from '../../assets/img/avatar.png';
 import {setUser} from '../../redux/actions';
 import {RegisterFormValidation} from '../register-form-validation';
 import {ErrorIndicator} from '../error-indicator';
@@ -20,7 +19,7 @@ function EditProfile() {
   const history = useHistory();
 
   const currentUser = useSelector(({userData: {user = {}}}) => user);
-  const themeMode = useSelector(state => state.themeMode);
+  const themeMode = useSelector(state => state.isDarkMode);
   const userService = new UserServer();
   const token = getFromLocalStorage('token');
 
@@ -40,7 +39,7 @@ function EditProfile() {
     if (currentUser) {
       setValue('username', `${currentUser.username}`);
       setValue('email', `${currentUser.email}`);
-      setValue('image', `${currentUser.image ?? DefaultAvatar}`);
+      setValue('image', `${currentUser.image ?? ''}`);
     }
     // eslint-disable-next-line
   }, [currentUser]);

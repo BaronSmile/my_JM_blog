@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Spin } from 'antd';
 import cn from 'classnames';
 
-import { UserInfo } from '../userInfo';
+import { UserInfo } from '../user-info';
 import { removeFromLocalStorage } from '../../utils/localStorage';
 import { setUser } from '../../redux/actions';
 import css from '../header/header.module.scss';
@@ -13,7 +13,7 @@ function LoggedInUser() {
   const dispatch = useDispatch();
   const history = useHistory();
   const currentUser = useSelector(({ userData: { user = {} } }) => user);
-  const themeMode = useSelector((state) => state.themeMode);
+  const themeMode = useSelector((state) => state.isDarkMode);
 
   const loggedStyle = cn(css.header__loggedIn, { [css.dark__loggedIn]: themeMode });
 

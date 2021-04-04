@@ -10,13 +10,14 @@ import { setToLocalStorage } from '../../utils/localStorage';
 import { FormInput } from '../form-input';
 import RegisterFormValidation from '../register-form-validation/register-form-validation';
 import { ErrorIndicator } from '../error-indicator';
-import css from './signUp.module.scss';
+import css from './sign-up.module.scss';
 
 function SignUp() {
+  const [isSubmit, setIsSubmit] = useState(false);
   const userServer = new UserServer();
   const dispatch = useDispatch();
   const auth = useSelector(({ loggedIn = false }) => loggedIn);
-  const themeMode = useSelector(({ themeMode }) => themeMode);
+  const themeMode = useSelector(({ isDarkMode }) => isDarkMode);
   const [error, setErrors] = useState(null);
 
   const {
@@ -32,27 +33,30 @@ function SignUp() {
   } = RegisterFormValidation();
 
   const onSubmit = ({ username, email, password }) => {
-    const requestBody = {
-      user: {
-        username,
-        email,
-        password,
-      },
-    };
+    if(!isSubmit){
+      setIsSubmit(true);
+      const requestBody = {
+        user: {
+          username,
+          email,
+          password,
+        },
+      };
 
-    userServer
-      .registerUser(requestBody)
-      .then((body) => {
-        console.log('Register:', body);
-        if (body.errors) {
-          setServerErrors(body.errors);
-          return;
-        }
-        setToLocalStorage('token', body.user.token);
-        dispatch(setUser(body.user));
-        dispatch(setLoggedIn(true));
-      })
-      .catch(() => setErrors(true));
+      userServer
+        .registerUser(requestBody)
+        .then((body) => {
+          if (body.errors) {
+            setServerErrors(body.errors);
+            return;
+          }
+          setToLocalStorage('token', body.user.token);
+          dispatch(setUser(body.user));
+          dispatch(setLoggedIn(true));
+        })
+        .catch(() => setErrors(true))
+        .finally(()=>setIsSubmit(false));
+    }
   };
 
   if (auth) {
@@ -61,6 +65,10 @@ function SignUp() {
 
   if (error) {
     return <ErrorIndicator />;
+  }
+
+  function isEmpty(obj) {
+    return Object.keys(obj).length !== 0;
   }
 
   const themeModeStyle = cn(css.signUp, { [css.signUp__dark]: themeMode });
@@ -123,7 +131,13 @@ function SignUp() {
           </label>
           {errors.checkbox && <p style={{ margin: 0, color: '#f5222d' }}>{errors.checkbox.message}</p>}
         </div>
-        <Button className={css.signUp__submit} type="primary" htmlType="submit">
+        <Button
+          className={css.signUp__submit}
+          type="primary"
+          htmlType="submit"
+          loading={isSubmit}
+          disabled={isEmpty(errors) || isSubmit}
+        >
           Create
         </Button>
         <p>

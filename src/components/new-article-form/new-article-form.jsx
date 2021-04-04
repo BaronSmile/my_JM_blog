@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
 
-import css from './newArticleForm.module.scss';
+import css from './new-article-form.module.scss';
 import { FormInput } from '../form-input';
 import { ErrorIndicator } from '../error-indicator';
 

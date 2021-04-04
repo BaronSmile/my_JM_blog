@@ -1,28 +1,15 @@
 export default class GetResponseServer {
   getOptions(token = '', method = 'GET', data) {
-    let headers = {};
+    let headers = {'Content-Type': 'application/json;charset=utf-8'};
     if (token) {
-      headers = {
-        'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
-      };
-    } else {
-      headers = {
-        'Content-Type': 'application/json;charset=utf-8',
-      };
+      headers.Authorization = `Token ${token}`
     }
-    let options = {};
+    let options = {
+      method: `${method}`,
+      headers,
+    };
     if (method === 'POST' || method === 'PUT') {
-      options = {
-        method: `${method}`,
-        headers,
-        body: JSON.stringify(data),
-      };
-    } else {
-      options = {
-        method: `${method}`,
-        headers,
-      };
+      options.body = JSON.stringify(data)
     }
     return options;
   }

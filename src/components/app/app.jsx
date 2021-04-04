@@ -6,16 +6,16 @@ import cn from 'classnames';
 import css from './app.module.scss';
 import { Header } from '../header';
 import { ArticleList } from '../article-list';
-import SignIn from '../signIn';
-import SignUp from '../signUp';
-import PrivateRoute from '../PrivateRoute';
+import SignIn from '../sign-in';
+import SignUp from '../sign-up';
+import PrivateRoute from '../private-route';
 import EditProfile from '../edit-profile';
 import NewArticle from '../new-article';
 import EditArticle from '../edit-article';
 import ArticlePage from '../article-page';
 
 function App() {
-  const themeMode = useSelector((state) => state.themeMode);
+  const themeMode = useSelector((state) => state.isDarkMode);
 
   const themeStyle = cn({ [css.dark]: themeMode });
 

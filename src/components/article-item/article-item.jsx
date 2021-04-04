@@ -14,7 +14,7 @@ import { ErrorIndicator } from '../error-indicator';
 
 function ArticleItem({ article, isFull = false, onDelete }) {
   const history = useHistory();
-  const themeMode = useSelector((state) => state.themeMode);
+  const themeMode = useSelector((state) => state.isDarkMode);
 
   const { onFavoriteArticle, onBtnEditClick, articleItem, username, errors } = UseArticle(article);
   const { title, slug, favorited, body, createdAt, tagList, description, author, favoritesCount } = articleItem;

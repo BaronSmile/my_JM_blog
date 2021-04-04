@@ -6,8 +6,7 @@ import cn from 'classnames';
 
 import ArticlesServer from '../../api-server/articlesServer';
 import css from '../new-article/new-article.module.scss';
-import NewArticleForm from '../newArticleForm';
-import { addTag, deleteTag } from '../../utils/addDeleteTag';
+import NewArticleForm from '../new-article-form';
 import TagList from '../tag-list';
 import TagForm from '../tag-form';
 
@@ -22,7 +21,7 @@ function EditArticle() {
   const articleServer = new ArticlesServer();
 
   const token = useSelector(({ userData: { user = {} } }) => user.token);
-  const themeMode = useSelector((state) => state.themeMode);
+  const themeMode = useSelector((state) => state.isDarkMode);
 
   useEffect(() => {
     articleServer
@@ -55,6 +54,15 @@ function EditArticle() {
         history.push(`/articles/${article.slug}`);
       })
       .catch(() => setError(true));
+  };
+
+  const addTag = (tags, tag, setTags) => {
+    setTags([...tags, { name: tag, id: `${tag}${Math.random()}` }]);
+  };
+
+  const deleteTag = (tags, tagId, setTags) => {
+    const copyTags = tags.filter((tag) => tag.id !== tagId);
+    setTags(copyTags);
   };
 
   if (isLoading) {

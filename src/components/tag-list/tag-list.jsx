@@ -6,7 +6,7 @@ import cn from 'classnames';
 import css from './tag-list.module.scss';
 
 function TagList({ tags, onDeleteTag }) {
-  const themeMode = useSelector((state) => state.themeMode);
+  const themeMode = useSelector((state) => state.isDarkMode);
 
   const elements = tags.map(({ id, name }) => (
     <li key={id} className={css.tags__item}>

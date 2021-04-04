@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Alert, Pagination, Spin } from 'antd';
 import cn from 'classnames';
@@ -8,13 +8,14 @@ import ArticlesServer from '../../api-server/articlesServer';
 import { ArticleItem } from '../article-item';
 
 function ArticleList() {
-  const apiArticles = useMemo(() => new ArticlesServer(), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const apiArticles = new ArticlesServer();
   const [articlesList, setArticles] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [isLoading, setLoading] = useState(true);
   const [hasError, setError] = useState(false);
   const token = useSelector(({ userData: { user = {} } }) => user.token);
-  const themeMode = useSelector((state) => state.themeMode);
+  const themeMode = useSelector((state) => state.isDarkMode);
 
   useEffect(() => {
     apiArticles
@@ -51,13 +52,13 @@ function ArticleList() {
   ));
 
   if (isLoading) {
-    return <Spin className={css.spinner} tip="Loading..." size="large" />;
+    return <Spin className={css.spinner} tip='Loading...' size='large' />;
   }
 
   if (hasError) {
     return (
       <div className={css.alert}>
-        <Alert message="Error" description="Couldn't find the article" type="error" />
+        <Alert message='Error' description="Couldn't find the article" type='error' />
       </div>
     );
   }

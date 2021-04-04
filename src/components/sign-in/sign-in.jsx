@@ -7,17 +7,18 @@ import cn from 'classnames';
 import UserServer from '../../api-server/userServer';
 import { setLoggedIn, setUser } from '../../redux/actions';
 import { setToLocalStorage } from '../../utils/localStorage';
-import css from './signIn.module.scss';
+import css from './sign-in.module.scss';
 import { RegisterFormValidation } from '../register-form-validation';
 import { ErrorIndicator } from '../error-indicator';
 import { FormInput } from '../form-input';
 
 function SignIn() {
   const [error, setErrors] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(false);
   const userService = new UserServer();
   const dispatch = useDispatch();
   const auth = useSelector(({ loggedIn = false }) => loggedIn);
-  const themeMode = useSelector(({ themeMode }) => themeMode);
+  const themeMode = useSelector(({ isDarkMode }) => isDarkMode);
 
   const {
     serverErrors,
@@ -29,24 +30,29 @@ function SignIn() {
   } = RegisterFormValidation();
 
   const onSubmit = ({ email, password }) => {
-    const requestBody = {
-      user: {
-        email,
-        password,
-      },
-    };
-    userService
-      .logInUser(requestBody)
-      .then((body) => {
-        if (body.errors) {
-          setServerErrors(body.errors);
-          return;
-        }
-        dispatch(setLoggedIn(true));
-        setToLocalStorage('token', body.user.token);
-        dispatch(setUser(body.user));
-      })
-      .catch((err) => setErrors(err));
+    if(!isSubmit){
+      setIsSubmit(true)
+      const requestBody = {
+        user: {
+          email,
+          password,
+        },
+      };
+      userService
+        .logInUser(requestBody)
+        .then((body) => {
+          if (body.errors) {
+            setServerErrors(body.errors);
+            return;
+          }
+          dispatch(setLoggedIn(true));
+          setToLocalStorage('token', body.user.token);
+          dispatch(setUser(body.user));
+        })
+        .catch((err) => setErrors(err))
+        .finally(()=>setIsSubmit(false))
+    }
+
   };
 
   if (error) {
@@ -55,6 +61,10 @@ function SignIn() {
 
   if (auth) {
     return <Redirect to="/" />;
+  }
+
+  function isEmpty(obj) {
+    return Object.keys(obj).length !== 0;
   }
 
   const signInStyle = cn(css.signIn, { [css.signIn__dark]: themeMode });
@@ -85,7 +95,13 @@ function SignIn() {
         {serverErrors['email or password'] && (
           <ErrorIndicator errorMessage={`Email or password ${serverErrors['email or password']}`} />
         )}
-        <Button className={css.signIn__submit} type="primary" htmlType="submit">
+        <Button
+          className={css.signIn__submit}
+          type="primary"
+          htmlType="submit"
+          loading={isSubmit}
+          disabled={isEmpty(errors) || isSubmit}
+        >
           Login
         </Button>
         <p className={css.signIn__question}>

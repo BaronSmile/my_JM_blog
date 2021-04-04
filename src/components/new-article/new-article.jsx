@@ -6,16 +6,15 @@ import cn from 'classnames';
 import ArticlesServer from '../../api-server/articlesServer';
 import { getFromLocalStorage } from '../../utils/localStorage';
 import { ErrorIndicator } from '../error-indicator';
-import NewArticleForm from '../newArticleForm';
+import NewArticleForm from '../new-article-form';
 import TagList from '../tag-list';
-import { addTag, deleteTag } from '../../utils/addDeleteTag';
 import TagForm from '../tag-form';
 import css from './new-article.module.scss';
 
 function NewArticle() {
   const [tags, setTags] = useState([]);
   const [error, setError] = useState(null);
-  const themeMode = useSelector((state) => state.themeMode);
+  const themeMode = useSelector((state) => state.isDarkMode);
   const articlesService = new ArticlesServer();
   const history = useHistory();
   const token = getFromLocalStorage('token');
@@ -35,6 +34,15 @@ function NewArticle() {
       .createArticle(requestBody, token)
       .then(({ article: { slug } }) => history.push(`/articles/${slug}`))
       .catch(() => setError(true));
+  };
+
+  const addTag = (tags, tag, setTags) => {
+    setTags([...tags, { name: tag, id: `${tag}${Math.random()}` }]);
+  };
+
+  const deleteTag = (tags, tagId, setTags) => {
+    const copyTags = tags.filter((tag) => tag.id !== tagId);
+    setTags(copyTags);
   };
 
   if (error) {
