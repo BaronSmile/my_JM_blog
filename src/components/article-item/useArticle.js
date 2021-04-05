@@ -8,7 +8,7 @@ import ArticlesServer from '../../api-server/articlesServer';
 function UseArticle(article) {
   const apiArticles = useMemo(() => new ArticlesServer(), []);
   const [articleItem, setArticleItem] = useState(article);
-  const [isLikeRequestSending, setLikeRequest] = useState(false);
+  //const [isLikeRequestSending, setLikeRequest] = useState(null);
   const [error, setError] = useState(null);
   const history = useHistory();
   const username = useSelector(({ userData: { user = {} } }) => user.username);
@@ -20,21 +20,24 @@ function UseArticle(article) {
 
   const { slug, favorited } = articleItem;
 
+  console.log('useArticle:',favorited);
+
   const onBtnEditClick = () => {
     history.push(`/articles/${slug}/edit`);
   };
 
+
   const onFavoriteArticle = () => {
     if (token) {
-      setLikeRequest(true);
+      //setLikeRequest(true);
       apiArticles
         .favoriteArticle(slug, token, favorited)
         .then((result) => {
-          setLikeRequest(false);
+          //setLikeRequest(false);
           setArticleItem(result.article);
         })
         .catch(() => {
-          setLikeRequest(false);
+          //setLikeRequest(false);
           setError(true);
         });
     } else {
@@ -42,7 +45,7 @@ function UseArticle(article) {
     }
   };
 
-  return { onFavoriteArticle, onBtnEditClick, articleItem, username, error, isLikeRequestSending };
+  return { onFavoriteArticle, onBtnEditClick, articleItem, username, error, /*isLikeRequestSending*/ };
 }
 
 export default UseArticle;

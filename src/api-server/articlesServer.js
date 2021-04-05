@@ -6,7 +6,7 @@ export default class ArticlesServer extends GetResponseServer {
   async getArticles(pages = 1, token = '') {
     const options = this.getOptions(token);
 
-    return await this.getResponse(`${this.baseUrl}?offset=${pages * 20 - 20}`, options);
+    return await this.getResponse(`${this.baseUrl}?&offset=${pages * 20 - 20}`, options);
   }
 
   async getArticle(slug, token = '') {

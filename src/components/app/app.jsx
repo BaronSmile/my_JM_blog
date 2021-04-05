@@ -25,15 +25,13 @@ function App() {
         <Header />
         <main className={css.main}>
           <Switch>
-            <Route path="/" component={ArticleList} exact />
-            <Route path="/articles" component={ArticleList} exact />
+            <Route path={['/',"/articles"]} component={ArticleList} exact />
             <Route path="/articles/:slug" component={ArticlePage} exact />
             <Route path="/sign-in" component={SignIn} exact />
             <Route path="/sign-up" component={SignUp} exact />
             <PrivateRoute path="/profile" component={EditProfile} exact />
             <PrivateRoute path="/new-article" component={NewArticle} exact />
             <PrivateRoute path="/articles/:slug/edit" component={EditArticle} exact />
-            <Route path="/" component={ArticleList} />
           </Switch>
         </main>
       </div>

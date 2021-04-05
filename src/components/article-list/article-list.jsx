@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Alert, Pagination, Spin } from 'antd';
 import cn from 'classnames';
@@ -8,8 +8,8 @@ import ArticlesServer from '../../api-server/articlesServer';
 import { ArticleItem } from '../article-item';
 
 function ArticleList() {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const apiArticles = new ArticlesServer();
+
+  const apiArticles = useMemo(()=>new ArticlesServer(),[]);
   const [articlesList, setArticles] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [isLoading, setLoading] = useState(true);

@@ -24,15 +24,18 @@ function ArticleItem({ article, isFull = false, onDelete }) {
   }
 
   const isOwnArticle = username === author.username && isFull;
+
   const date = format(new Date(parseISO(createdAt)), 'MMMM d, yyyy');
+
   const likeContent = favorited ? (
     <HeartFilled onClick={onFavoriteArticle} className={css.article__heart} />
   ) : (
     <HeartOutlined onClick={onFavoriteArticle} className={css.article__heart_outlined} />
   );
 
-  let str = 'articles';
-  let res = history.location.pathname.split('/').includes(str);
+  console.log('Item:',favorited);
+
+  let res = history.location.pathname.split('/').includes('articles');
 
   const articleStyle = cn({ [css.article]: res }, { [css.article__dark]: themeMode });
   const deleteBtnStyle = cn(css.article__delete, { [css.dark__delete]: themeMode });
