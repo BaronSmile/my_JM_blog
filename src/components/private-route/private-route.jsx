@@ -1,15 +1,15 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { redirectToSignIn } from '../../api-server/routes';
 
-import { getFromLocalStorage } from '../../utils/localStorage';
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) => (getFromLocalStorage('token') ? <Component {...props} /> : <Redirect to="/sign-in" />)}
-  />
-);
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  const isLogin = useSelector(({ loggedIn }) => loggedIn);
+  return (
+    <Route {...rest} render={(props) => (isLogin ? <Component {...props} /> : <Redirect to={redirectToSignIn()} />)} />
+  );
+};
 
 PrivateRoute.propTypes = {
   component: PropTypes.elementType.isRequired,

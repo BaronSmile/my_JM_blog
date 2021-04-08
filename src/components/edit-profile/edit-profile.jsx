@@ -1,27 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
-import {Button} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Button } from 'antd';
 import cn from 'classnames';
 
-import UserServer from '../../api-server/userServer';
-import {getFromLocalStorage} from '../../utils/localStorage';
-import {setUser} from '../../redux/actions';
-import {RegisterFormValidation} from '../register-form-validation';
-import {ErrorIndicator} from '../error-indicator';
+import { updateUser, setToLStorage } from '../../api-server/api';
+import { updateUserProfile, setLoggedIn } from '../../redux/actions';
+import { RegisterFormValidation } from '../register-form-validation';
+import { ErrorIndicator } from '../error-indicator';
+import { redirectToArticles } from '../../api-server/routes';
 import css from './edit-profile.module.scss';
-import {FormInput} from '../form-input';
+import { FormInput } from '../form-input';
 
 function EditProfile() {
   const [error, setError] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const currentUser = useSelector(({userData: {user = {}}}) => user);
-  const themeMode = useSelector(state => state.isDarkMode);
-  const userService = new UserServer();
-  const token = getFromLocalStorage('token');
+  const user = useSelector(({ user }) => user);
+  const themeMode = useSelector((state) => state.isDarkMode);
 
   const {
     serverErrors,
@@ -36,37 +35,45 @@ function EditProfile() {
   } = RegisterFormValidation();
 
   useEffect(() => {
-    if (currentUser) {
-      setValue('username', `${currentUser.username}`);
-      setValue('email', `${currentUser.email}`);
-      setValue('image', `${currentUser.image ?? ''}`);
+    if (user) {
+      setValue('username', `${user.username}`);
+      setValue('email', `${user.email}`);
+      setValue('image', `${user.image ?? ''}`);
     }
     // eslint-disable-next-line
-  }, [currentUser]);
+  }, [user]);
 
-  const onSubmit = ({username, email, password, image}) => {
-    const requestBody = {
-      user: {username, email, password, image},
-    };
-    userService
-      .updateUser(requestBody, token)
-      .then((body) => {
-        if (body.errors) {
-          setServerErrors(body.errors);
-          return;
+  const onSubmit = async (data) => {
+    if (!isSubmit) {
+      setIsSubmit(true);
+      try {
+        const response = await updateUser(data, user.token);
+
+        if (response.errors) {
+          setServerErrors(response.errors);
         }
-        dispatch(setUser(body.user));
-        history.push('/');
-      })
-      .catch((err) => setError(err));
+
+        if (response.user) {
+          dispatch(updateUserProfile(response.user));
+          dispatch(setLoggedIn(true));
+          const { user } = response;
+          setToLStorage('user', user);
+          history.push(redirectToArticles());
+        }
+      } catch (err) {
+        setError(err);
+      } finally {
+        setIsSubmit(false);
+      }
+    }
   };
 
   if (error) {
-    return <ErrorIndicator/>;
+    return <ErrorIndicator />;
   }
 
   return (
-    <div className={cn({[css.edit__profile]: themeMode})}>
+    <div className={cn({ [css.edit__profile]: themeMode })}>
       <div className={css.profile}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1 className={css.profile__title}>Edit profile</h1>
@@ -106,7 +113,13 @@ function EditProfile() {
             name="image"
             serverErrors={serverErrors}
           />
-          <Button className={css.profile__submit} type="primary" htmlType="submit">
+          <Button
+            className={css.profile__submit}
+            type="primary"
+            htmlType="submit"
+            loading={isSubmit}
+            disabled={isSubmit}
+          >
             Save
           </Button>
         </form>

@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import loggedInReducer from './logged-in-reducer';
-import setUserReducer from './set-user-reducer';
+import userReducer from './user-reducer';
 import { isDarkMode } from './dark-mode-reducer';
 
 const index = combineReducers({
-  userData: setUserReducer,
+  user: userReducer,
   loggedIn: loggedInReducer,
-  isDarkMode
+  isDarkMode,
 });
 
 export default index;

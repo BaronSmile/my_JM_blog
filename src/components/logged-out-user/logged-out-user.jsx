@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import cn from 'classnames';
 
 import css from '../header/header.module.scss';
+import { redirectToSignIn, redirectToSignUp } from '../../api-server/routes';
 
 function LoggedOutUser() {
   const themeMode = useSelector((state) => state.isDarkMode);
@@ -12,10 +13,10 @@ function LoggedOutUser() {
 
   return (
     <div className={css.header__loggedOut}>
-      <Link className={signInStyle} to="/sign-in">
+      <Link className={signInStyle} to={redirectToSignIn()}>
         Sign In
       </Link>
-      <Link className={css.header__signUp} to="/sign-up">
+      <Link className={css.header__signUp} to={redirectToSignUp()}>
         Sign Up
       </Link>
     </div>

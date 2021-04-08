@@ -4,21 +4,20 @@ import { Link, Redirect } from 'react-router-dom';
 import { Button } from 'antd';
 import cn from 'classnames';
 
-import { setLoggedIn, setUser } from '../../redux/actions';
-import UserServer from '../../api-server/userServer';
-import { setToLocalStorage } from '../../utils/localStorage';
+import { registerUser, setLoggedIn } from '../../redux/actions';
+import { regUser, setToLStorage } from '../../api-server/api';
+import { redirectToSignIn } from '../../api-server/routes';
 import { FormInput } from '../form-input';
 import RegisterFormValidation from '../register-form-validation/register-form-validation';
 import { ErrorIndicator } from '../error-indicator';
 import css from './sign-up.module.scss';
 
 function SignUp() {
-  const [isSubmit, setIsSubmit] = useState(false);
-  const userServer = new UserServer();
   const dispatch = useDispatch();
   const auth = useSelector(({ loggedIn = false }) => loggedIn);
   const themeMode = useSelector(({ isDarkMode }) => isDarkMode);
   const [error, setErrors] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const {
     serverErrors,
@@ -32,30 +31,27 @@ function SignUp() {
     agreementsSettingsValidation,
   } = RegisterFormValidation();
 
-  const onSubmit = ({ username, email, password }) => {
-    if(!isSubmit){
+  const onSubmit = async (data) => {
+    if (!isSubmit) {
       setIsSubmit(true);
-      const requestBody = {
-        user: {
-          username,
-          email,
-          password,
-        },
-      };
+      try {
+        const response = await regUser(data);
 
-      userServer
-        .registerUser(requestBody)
-        .then((body) => {
-          if (body.errors) {
-            setServerErrors(body.errors);
-            return;
-          }
-          setToLocalStorage('token', body.user.token);
-          dispatch(setUser(body.user));
+        if (response.errors) {
+          setServerErrors(response.errors);
+        }
+
+        if (response.user) {
+          dispatch(registerUser(response.user));
           dispatch(setLoggedIn(true));
-        })
-        .catch(() => setErrors(true))
-        .finally(()=>setIsSubmit(false));
+          const { user } = response;
+          setToLStorage('user', user);
+        }
+      } catch (err) {
+        setErrors(err);
+      } finally {
+        setIsSubmit(false);
+      }
     }
   };
 
@@ -141,7 +137,7 @@ function SignUp() {
           Create
         </Button>
         <p>
-          Already have an account? <Link to="/sign-in">Sign In</Link>
+          Already have an account? <Link to={redirectToSignIn()}>Sign In</Link>
         </p>
       </form>
     </div>

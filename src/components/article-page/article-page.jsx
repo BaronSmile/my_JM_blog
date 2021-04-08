@@ -3,8 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Alert, Spin } from 'antd';
 
-import ArticlesServer from '../../api-server/articlesServer';
-
+import { getSingleArticle, deleteArticle } from '../../api-server/api';
+import { redirectToArticles } from '../../api-server/routes';
 import css from '../new-article/new-article.module.scss';
 import { ArticleItem } from '../article-item';
 import { ErrorIndicator } from '../error-indicator';
@@ -12,37 +12,38 @@ import { ErrorIndicator } from '../error-indicator';
 function ArticlePage() {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [errors, setErrors] = useState(null);
-  const [itemArticle, setItemArticle] = useState(null);
+  const [itemArticle, setItemArticle] = useState({});
 
   const { slug } = useParams();
   const history = useHistory();
 
-  const token = useSelector(({ userData: { user = {} } }) => user.token);
-  const apiServer = new ArticlesServer();
+  const token = useSelector(({ user }) => user.token);
 
   useEffect(() => {
-    apiServer
-      .getArticle(slug, token)
-      .then(({ article }) => {
-        setLoading(false);
-        setItemArticle(article);
-      })
-      .catch(() => {
-        setLoading(false);
-        setHasError(true);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slug]);
+    const fetchData = async () => {
+      try {
+        const { article } = await getSingleArticle(slug, token);
 
-  const onDelete = () => {
-    apiServer
-      .deleteArticle(slug, token)
-      .then(() => history.push('/'))
-      .catch(() => setErrors(true));
+        setItemArticle(article);
+        setLoading(false);
+      } catch (error) {
+        setHasError(true);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+    return () => {
+      setLoading(true);
+    };
+  }, [slug, token]);
+
+  const onDelete = async () => {
+    await deleteArticle(slug, token);
+    history.push(redirectToArticles());
   };
 
-  if (errors) {
+  if (hasError) {
     return <ErrorIndicator />;
   }
 

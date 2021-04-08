@@ -4,43 +4,43 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Alert, Spin } from 'antd';
 import cn from 'classnames';
 
-import ArticlesServer from '../../api-server/articlesServer';
+import { getSingleArticle, updateArticle } from '../../api-server/api';
 import css from '../new-article/new-article.module.scss';
 import NewArticleForm from '../new-article-form';
 import TagList from '../tag-list';
 import TagForm from '../tag-form';
+import { redirectToArticle } from '../../api-server/routes';
 
 function EditArticle() {
-  const [itemArticle, setItemArticle] = useState(null);
+  const [itemArticle, setItemArticle] = useState({});
   const [hasError, setError] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [tags, setTags] = useState([]);
 
   const history = useHistory();
   const { slug } = useParams();
-  const articleServer = new ArticlesServer();
 
-  const token = useSelector(({ userData: { user = {} } }) => user.token);
-  const themeMode = useSelector((state) => state.isDarkMode);
+  const token = useSelector(({ user }) => user.token);
+  const themeMode = useSelector(({ isDarkMode }) => isDarkMode);
 
   useEffect(() => {
-    articleServer
-      .getArticle(slug, token)
-      .then(({ article }) => {
-        setLoading(false);
+    const fetchData = async () => {
+      try {
+        const { article } = await getSingleArticle(slug);
         setItemArticle(article);
-        setTags(article.tagList.map((tag) => ({ name: tag, id: `${tag}${Math.random()}` })));
-      })
-      .catch(() => {
         setLoading(false);
-        setError(true);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        setTags(article.tagList.map((tag) => ({ name: tag, id: `${tag}${Math.random()}` })));
+      } catch (errorFromFetch) {
+        setError(errorFromFetch);
+      }
+    };
+
+    fetchData();
   }, [slug]);
 
-  const submitArticle = ({ title, description, body }) => {
+  const submitArticle = async ({ title, description, body }) => {
     const tagList = tags.map((tag) => tag.name);
-    const requestBody = {
+    const data = {
       article: {
         title,
         description,
@@ -48,12 +48,16 @@ function EditArticle() {
         tagList,
       },
     };
-    articleServer
-      .updateArticle(requestBody, slug, token)
-      .then(({ article }) => {
-        history.push(`/articles/${article.slug}`);
-      })
-      .catch(() => setError(true));
+    try {
+      const response = await updateArticle(data, slug, token);
+
+      if (response.article) {
+        const { slug: newSlag } = response.article;
+        history.push(redirectToArticle(newSlag));
+      }
+    } catch (err) {
+      setError(err);
+    }
   };
 
   const addTag = (tags, tag, setTags) => {

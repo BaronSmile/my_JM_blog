@@ -1,18 +1,17 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import ArticlesServer from '../../api-server/articlesServer';
+import { favoriteArticle } from '../../api-server/api';
+import { redirectToEditArticle, redirectToSignIn } from '../../api-server/routes';
 
 function UseArticle(article) {
-  const apiArticles = useMemo(() => new ArticlesServer(), []);
   const [articleItem, setArticleItem] = useState(article);
-  //const [isLikeRequestSending, setLikeRequest] = useState(null);
   const [error, setError] = useState(null);
   const history = useHistory();
-  const username = useSelector(({ userData: { user = {} } }) => user.username);
-  const token = useSelector(({ userData: { user = {} } }) => user.token);
+  const username = useSelector(({ user }) => user.username);
+  const token = useSelector(({ user }) => user.token);
 
   useEffect(() => {
     setArticleItem(article);
@@ -20,32 +19,25 @@ function UseArticle(article) {
 
   const { slug, favorited } = articleItem;
 
-  console.log('useArticle:',favorited);
-
   const onBtnEditClick = () => {
-    history.push(`/articles/${slug}/edit`);
+    history.push(redirectToEditArticle(slug));
   };
 
+  const onFavoriteArticle = async () => {
+    try {
+      if (token) {
+        const response = await favoriteArticle(slug, token, favorited);
 
-  const onFavoriteArticle = () => {
-    if (token) {
-      //setLikeRequest(true);
-      apiArticles
-        .favoriteArticle(slug, token, favorited)
-        .then((result) => {
-          //setLikeRequest(false);
-          setArticleItem(result.article);
-        })
-        .catch(() => {
-          //setLikeRequest(false);
-          setError(true);
-        });
-    } else {
-      history.push(`/sign-in`);
+        setArticleItem(response.article);
+      } else {
+        history.push(redirectToSignIn());
+      }
+    } catch (err) {
+      setError(true);
     }
   };
 
-  return { onFavoriteArticle, onBtnEditClick, articleItem, username, error, /*isLikeRequestSending*/ };
+  return { onFavoriteArticle, onBtnEditClick, articleItem, username, error /*isLikeRequestSending*/ };
 }
 
 export default UseArticle;

@@ -1,64 +1,55 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Pagination, Spin } from 'antd';
 import cn from 'classnames';
 
 import css from './article-list.module.scss';
-import ArticlesServer from '../../api-server/articlesServer';
+import { getArticlesList } from '../../api-server/api';
 import { ArticleItem } from '../article-item';
 
 function ArticleList() {
-
-  const apiArticles = useMemo(()=>new ArticlesServer(),[]);
+  const dispatch = useDispatch();
   const [articlesList, setArticles] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [isLoading, setLoading] = useState(true);
   const [hasError, setError] = useState(false);
-  const token = useSelector(({ userData: { user = {} } }) => user.token);
-  const themeMode = useSelector((state) => state.isDarkMode);
+  const token = useSelector(({ user }) => user.token);
+  const loggedIn = useSelector(({ loggedIn }) => loggedIn);
+  const themeMode = useSelector(({ isDarkMode }) => isDarkMode);
 
   useEffect(() => {
-    apiArticles
-      .getArticles(token)
-      .then(({ articles }) => {
-        setLoading(false);
+    const fetchData = async () => {
+      try {
+        const { articles } = await getArticlesList(10, activePage, token);
         setArticles(articles);
-      })
-      .catch(() => {
         setLoading(false);
+        setError(false);
+      } catch (error) {
         setError(true);
-      });
-  }, [apiArticles, token]);
+        setLoading(false);
+      }
+    };
 
-  const onPageChange = (page) => {
-    setLoading(true);
-    apiArticles
-      .getArticles(page, token)
-      .then(({ articles }) => {
-        setLoading(false);
-        setArticles(articles);
-      })
-      .catch(() => {
-        setLoading(false);
-        setError(true);
-      });
-    setActivePage(page);
+    fetchData();
+    return () => {
+      setLoading(true);
+    };
+  }, [activePage, dispatch, token, loggedIn]);
+
+  const onChangePage = (changedPage) => {
+    setActivePage(changedPage);
   };
 
-  const elements = articlesList.map((item) => (
-    <li key={item.createdAt}>
-      <ArticleItem article={item} />
-    </li>
-  ));
+  const elements = articlesList.map((item) => <ArticleItem key={item.createdAt} article={item} />);
 
   if (isLoading) {
-    return <Spin className={css.spinner} tip='Loading...' size='large' />;
+    return <Spin className={css.spinner} tip="Loading..." size="large" />;
   }
 
   if (hasError) {
     return (
       <div className={css.alert}>
-        <Alert message='Error' description="Couldn't find the article" type='error' />
+        <Alert message="Error" description="Couldn't find the article" type="error" />
       </div>
     );
   }
@@ -74,7 +65,7 @@ function ArticleList() {
         current={activePage}
         pageSize={10}
         total={500}
-        onChange={onPageChange}
+        onChange={onChangePage}
       />
     </>
   );

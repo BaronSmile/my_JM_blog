@@ -1,13 +1,3 @@
-.article {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  padding: 0 2em;
-  margin-top: 10em;
-}
-
 .article__dark {
   color: whitesmoke;
   background-color: #111d2c;
@@ -20,6 +10,10 @@
   .article__heart_outlined {
     color: #f89f9a;
   }
+}
+
+.single_article {
+  height: 100vh;
 }
 
 .article__section {
@@ -229,6 +223,7 @@ button.article__edit:active {
   margin: 10px 0 0 0;
   padding: 0;
 }
+
 .alert {
   position: absolute;
   top: 0;

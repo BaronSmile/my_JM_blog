@@ -11,10 +11,11 @@ import { useSelector } from 'react-redux';
 import UseArticle from './useArticle';
 import css from './article-item.module.scss';
 import { ErrorIndicator } from '../error-indicator';
+import { redirectToArticle } from '../../api-server/routes';
 
 function ArticleItem({ article, isFull = false, onDelete }) {
+  const themeMode = useSelector(({ isDarkMode }) => isDarkMode);
   const history = useHistory();
-  const themeMode = useSelector((state) => state.isDarkMode);
 
   const { onFavoriteArticle, onBtnEditClick, articleItem, username, errors } = UseArticle(article);
   const { title, slug, favorited, body, createdAt, tagList, description, author, favoritesCount } = articleItem;
@@ -33,11 +34,9 @@ function ArticleItem({ article, isFull = false, onDelete }) {
     <HeartOutlined onClick={onFavoriteArticle} className={css.article__heart_outlined} />
   );
 
-  console.log('Item:',favorited);
+  const routerBool = history.location.pathname.split('/articles').includes(`/${slug}`);
 
-  let res = history.location.pathname.split('/').includes('articles');
-
-  const articleStyle = cn({ [css.article]: res }, { [css.article__dark]: themeMode });
+  const articleStyle = cn({ [css.article__dark]: themeMode }, { [css.single_article]: routerBool });
   const deleteBtnStyle = cn(css.article__delete, { [css.dark__delete]: themeMode });
   const editBtnStyle = cn(css.article__edit, { [css.dark__edit]: themeMode });
   const tagsStyle = cn(css.article__tagsItem, { [css.dark__tags]: themeMode });
@@ -50,7 +49,7 @@ function ArticleItem({ article, isFull = false, onDelete }) {
           <div className={css.article__left}>
             <div className={css.article__titleWrapper}>
               <h2 className={css.article__title}>
-                <Link className={css.article__link} to={`/articles/${slug}`}>
+                <Link className={css.article__link} to={redirectToArticle(slug)}>
                   {title}
                 </Link>
               </h2>

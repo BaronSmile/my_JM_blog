@@ -3,25 +3,24 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import cn from 'classnames';
 
-import ArticlesServer from '../../api-server/articlesServer';
-import { getFromLocalStorage } from '../../utils/localStorage';
+import { createArticle } from '../../api-server/api';
 import { ErrorIndicator } from '../error-indicator';
 import NewArticleForm from '../new-article-form';
 import TagList from '../tag-list';
 import TagForm from '../tag-form';
 import css from './new-article.module.scss';
+import { redirectToArticles } from '../../api-server/routes';
 
 function NewArticle() {
   const [tags, setTags] = useState([]);
   const [error, setError] = useState(null);
-  const themeMode = useSelector((state) => state.isDarkMode);
-  const articlesService = new ArticlesServer();
+  const themeMode = useSelector(({ isDarkMode }) => isDarkMode);
   const history = useHistory();
-  const token = getFromLocalStorage('token');
+  const token = useSelector(({ user }) => user.token);
 
-  const submitArticle = ({ title, description, body }) => {
+  const submitArticle = async ({ title, description, body }) => {
     const tagList = tags.map((tag) => tag.name);
-    const requestBody = {
+    const data = {
       article: {
         title,
         description,
@@ -29,11 +28,15 @@ function NewArticle() {
         tagList,
       },
     };
+    try {
+      const response = await createArticle(data, token);
 
-    articlesService
-      .createArticle(requestBody, token)
-      .then(({ article: { slug } }) => history.push(`/articles/${slug}`))
-      .catch(() => setError(true));
+      if (response.article) {
+        history.push(redirectToArticles());
+      }
+    } catch (err) {
+      setError(err);
+    }
   };
 
   const addTag = (tags, tag, setTags) => {
